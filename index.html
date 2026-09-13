@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engr. Muhammad Zain UL Abideen — Electrical Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f7f6;
+    --bg-line:#e7ebea;
+    --panel:#ffffff;
+    --panel-2:#f2f4f3;
+    --line:#dde3e2;
+    --line-soft:#e9edec;
+    --text:#141b1d;
+    --muted:#5d6c6f;
+    --copper:#a8602f;
+    --copper-soft:#c98a55;
+    --copper-tint:#f2e3d5;
+    --blue:#2b5f8f;
+    --blue-tint:#dfe9f1;
+    --teal:#0d7a6e;
+    --teal-tint:#dcf0ec;
+    --radius:3px;
+    --shadow: 0 1px 2px rgba(20,27,29,.04), 0 6px 18px rgba(20,27,29,.05);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    font-size:16px;
+    min-height:100vh;
+    background-image:
+      linear-gradient(var(--bg-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bg-line) 1px, transparent 1px);
+    background-size:42px 42px;
+    background-position:-1px -1px;
+    overflow-x:hidden;
+  }
+  a{color:var(--copper); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  ::selection{background:var(--copper); color:#fff;}
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation:none !important; transition:none !important; }
+  }
+
+  /* ============ TOP NAV / TABS ============ */
+  .topbar{
+    position:sticky; top:0; z-index:100;
+    background:rgba(246,247,246,.9); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1080px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    height:64px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:1rem;
+    display:flex; align-items:center; gap:8px; white-space:nowrap; color:var(--text);
+  }
+  .brand .chip{
+    width:9px; height:9px; border-radius:2px; background:var(--copper);
+    box-shadow:0 0 0 3px var(--copper-tint);
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+  .tabs{ display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; position:relative; }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.02em;
+    color:var(--muted); background:transparent; border:none; cursor:pointer;
+    padding:22px 14px; position:relative; white-space:nowrap; transition:color .2s;
+  }
+  .tab-btn:hover{color:var(--text);}
+  .tab-btn.active{color:var(--copper);}
+  .tab-indicator{
+    position:absolute; bottom:0; left:0; height:2px; background:var(--copper);
+    transition:transform .32s cubic-bezier(.65,0,.35,1), width .32s cubic-bezier(.65,0,.35,1);
+    width:0;
+  }
+  @media (max-width:760px){
+    .tab-btn{padding:20px 10px; font-size:11px;}
+    .brand span.txt{display:none;}
+  }
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  /* ============ PANELS ============ */
+  .panel{display:none;}
+  .panel.active{display:block; animation:fadein .5s ease;}
+  @keyframes fadein{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  /* chip decoration (used near section headings — automation/AI motif) */
+  .chip-ico{ width:30px; height:30px; flex-shrink:0; opacity:.85; }
+  .chip-ico rect{ fill:none; stroke:var(--line); stroke-width:1.3; }
+  .chip-ico line{ stroke:var(--line); stroke-width:1.3; }
+  .chip-ico circle{ fill:var(--blue); animation:pulseChip 2.6s ease-in-out infinite; }
+  @keyframes pulseChip{ 0%,100%{opacity:.35;} 50%{opacity:1;} }
+
+  /* ============ HOME / HERO ============ */
+  .hero{ position:relative; min-height:calc(100vh - 64px); display:flex; align-items:center; overflow:hidden; padding:60px 0; }
+  .circuit-bg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .circuit-bg path{ fill:none; stroke:var(--line); stroke-width:1.4; }
+  .circuit-bg .trace{ stroke:var(--blue); opacity:.4; }
+  .circuit-bg .trace-c{ stroke:var(--copper); opacity:.4; }
+  .circuit-bg circle.node{ fill:var(--bg); stroke:var(--muted); stroke-width:1.2; }
+  .circuit-bg circle.node.hot{ stroke:var(--copper); }
+
+  .hero-content{position:relative; z-index:2; max-width:640px;}
+  .hero-tag{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--blue); letter-spacing:.04em; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .hero-tag .rule{width:36px; height:1px; background:var(--blue); display:inline-block;}
+  h1.name{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:clamp(2.1rem, 5.4vw, 3.6rem); line-height:1.06; letter-spacing:-0.01em; }
+  .role{ font-family:'Space Grotesk', sans-serif; font-size:clamp(1.05rem,2.2vw,1.35rem); color:var(--copper); margin-top:12px; font-weight:500; }
+  .hero-desc{ max-width:52ch; color:var(--muted); margin-top:18px; font-size:1rem; }
+
+  .pinout{ margin-top:34px; display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; max-width:560px; background:var(--panel); box-shadow:var(--shadow); }
+  .pin{ padding:14px 16px; border-right:1px solid var(--line); position:relative; }
+  .pin:last-child{border-right:none;}
+  .pin::before{ content:''; position:absolute; top:0; left:16px; width:12px; height:2px; background:var(--copper); }
+  .pin-num{font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--muted);}
+  .pin-val{margin-top:5px; font-size:.86rem; font-weight:500; word-break:break-word;}
+  .pin-val a{color:var(--text);}
+  .pin-val a:hover{color:var(--copper);}
+  @media (max-width:600px){ .pinout{grid-template-columns:1fr;} .pin{border-right:none; border-bottom:1px solid var(--line);} .pin:last-child{border-bottom:none;} }
+
+  .hero-btns{ display:flex; gap:12px; margin-top:32px; flex-wrap:wrap; }
+  .btn{ font-family:'IBM Plex Mono', monospace; font-size:12px; padding:12px 20px; border:1px solid var(--copper); color:var(--copper); border-radius:var(--radius); cursor:pointer; background:transparent; transition:.2s; }
+  .btn:hover{ background:var(--copper); color:#fff; text-decoration:none; }
+  .btn.ghost{ border-color:var(--line); color:var(--muted); }
+  .btn.ghost:hover{ background:var(--panel-2); color:var(--text); }
+
+  /* ============ SECTION SHELL ============ */
+  .sec{ padding:64px 0; }
+  .sec-head{ display:flex; align-items:center; gap:14px; margin-bottom:34px; }
+  .sec-no{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--copper-soft); }
+  .sec-title{ font-family:'Space Grotesk', sans-serif; font-size:1.6rem; font-weight:600; }
+  .sec-head .rule{ flex:1; height:1px; background:var(--line); margin-left:4px; }
+
+  /* ============ TIMELINE (experience / education) with traveling pulse ============ */
+  .timeline{position:relative; padding-left:26px;}
+  .timeline .rail{ position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--line); overflow:hidden; }
+  .timeline .rail .pulse{
+    position:absolute; left:-1.5px; width:4px; height:46px; border-radius:2px;
+    background:linear-gradient(var(--pulse-color, var(--copper)), transparent);
+    animation: travel 3.6s linear infinite;
+  }
+  @keyframes travel{ 0%{ top:-15%; } 100%{ top:110%; } }
+  .tl-item{position:relative; margin-bottom:40px;}
+  .tl-item:last-child{margin-bottom:0;}
+  .tl-item::before{ content:''; position:absolute; left:-26px; top:4px; width:9px; height:9px; border-radius:50%; background:var(--panel); border:2px solid var(--copper); z-index:2; }
+  .tl-head{display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; align-items:baseline;}
+  .tl-role{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:1.08rem;}
+  .tl-org{color:var(--blue); font-size:.93rem; margin-top:2px;}
+  .tl-date{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted); white-space:nowrap;}
+  .tl-body{margin-top:10px; color:var(--muted); max-width:66ch; font-size:.95rem;}
+  .tl-body p{margin-bottom:8px;}
+  .tl-body p:last-child{margin-bottom:0;}
+
+  /* ============ PROJECTS (status-LED cards) ============ */
+  .proj-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .proj-card{background:var(--panel); padding:20px 22px; transition:background .2s; position:relative;}
+  .proj-card:hover{background:var(--panel-2);}
+  .proj-id{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--copper-soft);}
+  .proj-name{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:.98rem; margin-top:8px; padding-right:16px;}
+  .led{ position:absolute; top:20px; right:20px; width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 3px var(--teal-tint); animation: ledBlink 2.8s ease-in-out infinite; }
+  .proj-card:nth-child(2n) .led{ animation-delay:.6s; background:var(--blue); box-shadow:0 0 0 3px var(--blue-tint); }
+  .proj-card:nth-child(3n) .led{ animation-delay:1.1s; }
+  @keyframes ledBlink{ 0%,100%{opacity:.3;} 50%{opacity:1;} }
+  @media (max-width:640px){ .proj-grid{grid-template-columns:1fr;} }
+
+  /* ============ SKILLS (scanning sweep) ============ */
+  .skill-groups{display:grid; grid-template-columns:1fr 1fr; gap:32px 40px;}
+  .skill-group h3{ font-family:'Space Grotesk', sans-serif; font-size:1rem; font-weight:600; margin-bottom:8px; }
+  .skill-group p{ color:var(--muted); font-size:.9rem; margin-bottom:12px; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:8px; position:relative; overflow:hidden; padding:2px; border-radius:var(--radius); }
+  .tag-row::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(100deg, transparent 42%, rgba(43,95,143,.16) 50%, transparent 58%);
+    background-size:260% 100%;
+    animation: scan 5.5s linear infinite;
+  }
+  @keyframes scan{ 0%{ background-position:120% 0; } 100%{ background-position:-40% 0; } }
+  .tag{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--text); border:1px solid var(--line); padding:5px 10px; border-radius:var(--radius); background:var(--panel); position:relative; z-index:1; }
+  @media (max-width:640px){ .skill-groups{grid-template-columns:1fr;} }
+
+  /* ============ EDUCATION ============ */
+  .edu-item{padding:18px 0; border-top:1px solid var(--line);}
+  .edu-item:first-child{border-top:none;}
+  .edu-top{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:baseline;}
+  .edu-school{font-weight:600; font-size:1rem;}
+  .edu-year{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--muted);}
+  .edu-deg{color:var(--blue); font-size:.9rem; margin-top:4px;}
+  .edu-meta{color:var(--muted); font-size:.87rem; margin-top:2px;}
+
+  /* ============ RECOGNITION (shimmer top-bar) ============ */
+  .list-block{margin-bottom:26px;}
+  .list-block:last-child{margin-bottom:0;}
+  .ach-item{ padding:16px 0 14px; border-top:1px solid var(--line); position:relative; }
+  .ach-item:first-child{border-top:none;}
+  .ach-item::before{
+    content:''; position:absolute; top:-1px; left:0; height:2px; width:60px;
+    background:linear-gradient(90deg, transparent, var(--copper-soft), transparent);
+    background-size:200% 100%;
+    animation: shimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes shimmer{ 0%{ background-position:200% 0; } 100%{ background-position:-100% 0; } }
+  .ach-title{font-weight:600; font-size:.95rem;}
+  .ach-loc{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--copper-soft); margin-top:2px;}
+  .ach-desc{color:var(--muted); font-size:.9rem; margin-top:5px; max-width:64ch;}
+  .cert-item{padding:16px 0; border-top:1px solid var(--line);}
+  .cert-item:first-child{border-top:none;}
+  .cert-top{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+  .cert-title{font-weight:600; font-size:.95rem;}
+  .cert-year{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted);}
+  .cert-desc{color:var(--muted); font-size:.88rem; margin-top:6px; max-width:62ch;}
+
+  /* ============ CONTACT (signal rings + node net) ============ */
+  .contact-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:50px; }
+  @media (max-width:760px){ .contact-grid{grid-template-columns:1fr;} }
+  .contact-lead{ color:var(--muted); max-width:48ch; margin-bottom:26px; font-size:.98rem; }
+  .direct-list{ display:flex; flex-direction:column; gap:16px; margin-bottom:6px; }
+  .direct-item{ display:flex; align-items:center; gap:14px; }
+  .direct-item .ic{ width:36px; height:36px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; background:var(--panel); }
+  .direct-item .ic svg{ width:15px; height:15px; stroke:var(--blue); position:relative; z-index:2; }
+  .direct-item.ring .ic::before, .direct-item.ring .ic::after{
+    content:''; position:absolute; inset:0; border-radius:50%; border:1px solid var(--teal);
+    animation: ping 2.6s ease-out infinite; opacity:0;
+  }
+  .direct-item.ring .ic::after{ animation-delay:1.3s; }
+  @keyframes ping{ 0%{ transform:scale(1); opacity:.7; } 100%{ transform:scale(2.1); opacity:0; } }
+  .direct-item a, .direct-item span{ font-size:.95rem; }
+
+  .social-panel{ border:1px solid var(--line); border-radius:var(--radius); padding:24px; background:var(--panel); box-shadow:var(--shadow); position:relative; overflow:hidden; }
+  .social-panel::before{
+    content:''; position:absolute; inset:0; opacity:.5; pointer-events:none;
+    background-image: radial-gradient(circle at 20% 20%, var(--line) 1px, transparent 1.6px),
+                       radial-gradient(circle at 80% 60%, var(--line) 1px, transparent 1.6px),
+                       radial-gradient(circle at 50% 90%, var(--line) 1px, transparent 1.6px);
+    background-size: 140px 140px;
+  }
+  .social-panel h3{ font-family:'Space Grotesk', sans-serif; font-size:1rem; font-weight:600; margin-bottom:6px; position:relative; }
+  .social-panel p.hint{ color:var(--muted); font-size:.85rem; margin-bottom:18px; position:relative; }
+  .social-list{ display:flex; flex-direction:column; gap:10px; position:relative; }
+  .social-link{ display:flex; align-items:center; gap:12px; padding:11px 14px; border:1px solid var(--line); border-radius:var(--radius); color:var(--text); font-size:.92rem; transition:.2s; background:var(--panel-2); }
+  .social-link:hover{ border-color:var(--copper); color:var(--copper); text-decoration:none; transform:translateX(3px); }
+  .social-link svg{ width:16px; height:16px; stroke:currentColor; flex-shrink:0; }
+  .social-link .plat{ font-weight:500; }
+  .social-link .sub{ margin-left:auto; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--muted); }
+
+  footer.site-foot{ border-top:1px solid var(--line); padding:26px 0; margin-top:20px; }
+  .foot-bottom{ color:var(--muted); font-size:.78rem; font-family:'IBM Plex Mono', monospace; text-align:center; }
+
+  a:focus-visible, .tab-btn:focus-visible, .btn:focus-visible{ outline:2px solid var(--copper); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="chip"></span><span class="txt">M. Zain UL Abideen</span></div>
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="home">HOME</button>
+      <button class="tab-btn" data-tab="experience">EXPERIENCE</button>
+      <button class="tab-btn" data-tab="projects">PROJECTS</button>
+      <button class="tab-btn" data-tab="skills">SKILLS</button>
+      <button class="tab-btn" data-tab="education">EDUCATION</button>
+      <button class="tab-btn" data-tab="recognition">RECOGNITION</button>
+      <button class="tab-btn" data-tab="contact">CONTACT</button>
+      <div class="tab-indicator" id="tabIndicator"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HOME ============ -->
+<section class="panel active" id="panel-home">
+  <div class="hero">
+    <svg class="circuit-bg" id="circuitSvg" viewBox="0 0 1080 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <path d="M 720 60 L 720 180 L 900 180 L 900 320" />
+      <path d="M 950 40 L 950 140 L 1040 140" />
+      <path d="M 760 260 L 860 260 L 860 400 L 1000 400" />
+      <path d="M 700 420 L 700 540 L 820 540 L 820 640" />
+      <path d="M 620 500 L 620 620 L 500 620 L 500 700" />
+      <path d="M 900 480 L 980 480 L 980 600" />
+      <path d="M 780 340 L 680 340 L 680 200" />
+      <path id="pathA" class="trace" d="M 720 60 L 720 180 L 900 180 L 900 320" />
+      <path id="pathB" class="trace-c" d="M 700 420 L 700 540 L 820 540 L 820 640" />
+      <path id="pathC" class="trace" d="M 780 340 L 680 340 L 680 200" />
+      <path id="pathD" class="trace-c" d="M 950 40 L 950 140 L 1040 140" />
+      <circle class="node" cx="720" cy="60" r="4"></circle>
+      <circle class="node hot" cx="900" cy="320" r="4"></circle>
+      <circle class="node" cx="1040" cy="140" r="4"></circle>
+      <circle class="node hot" cx="860" cy="400" r="4"></circle>
+      <circle class="node" cx="1000" cy="400" r="4"></circle>
+      <circle class="node hot" cx="820" cy="640" r="4"></circle>
+      <circle class="node" cx="500" cy="700" r="4"></circle>
+      <circle class="node" cx="980" cy="600" r="4"></circle>
+      <circle class="node hot" cx="680" cy="200" r="4"></circle>
+      <circle r="2.6" fill="#2b5f8f">
+        <animateMotion dur="4.5s" repeatCount="indefinite"><mpath href="#pathA"/></animateMotion>
+      </circle>
+      <circle r="2.6" fill="#a8602f">
+        <animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#pathB"/></animateMotion>
+      </circle>
+      <circle r="2.6" fill="#2b5f8f">
+        <animateMotion dur="5.2s" repeatCount="indefinite"><mpath href="#pathC"/></animateMotion>
+      </circle>
+      <circle r="2.6" fill="#a8602f">
+        <animateMotion dur="3s" repeatCount="indefinite"><mpath href="#pathD"/></animateMotion>
+      </circle>
+    </svg>
+
+    <div class="wrap">
+      <div class="hero-content">
+        <div class="hero-tag"><span class="rule"></span>PORTFOLIO — ELECTRICAL / INSTRUMENTATION</div>
+        <h1 class="name">Engr. Muhammad Zain<br>UL Abideen</h1>
+        <div class="role">Electrical Engineer — Instrumentation &amp; Control</div>
+        <p class="hero-desc">Gold medalist electrical engineer with a foundation in instrumentation, plant utilities, and maintenance — skilled in calibration, troubleshooting, and preventive maintenance of field instruments and control systems across industrial and telecom environments.</p>
+
+        <div class="pinout">
+          <div class="pin"><div class="pin-num">PHONE</div><div class="pin-val"><a href="tel:+923079295633">+92 307 9295633</a></div></div>
+          <div class="pin"><div class="pin-num">EMAIL</div><div class="pin-val"><a href="mailto:xhzainmunir@gmail.com">xhzainmunir@gmail.com</a></div></div>
+          <div class="pin"><div class="pin-num">LOCATION</div><div class="pin-val">Pakistan</div></div>
+        </div>
+
+        <div class="hero-btns">
+          <button class="btn" data-goto="projects">View Projects</button>
+          <button class="btn ghost" data-goto="contact">Get In Touch</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section class="panel" id="panel-experience">
+  <div class="wrap sec">
+    <div class="sec-head"><span class="sec-no">02</span><span class="sec-title">Experience</span><span class="rule"></span></div>
+    <div class="timeline">
+      <div class="rail" style="--pulse-color:var(--copper)"><div class="pulse"></div></div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <div><div class="tl-role">Cluster Engineer — Electronics</div><div class="tl-org">High Tech Network Pvt. Ltd. (HNL) · Bahawalnagar, Pakistan</div></div>
+          <div class="tl-date">JUN 2025 — JUN 2026</div>
+        </div>
+        <div class="tl-body">
+          <p>Managed preventive and corrective maintenance for telecom network infrastructure across the Bahawalnagar region (Jazz Project) — cellular sites, network equipment, and communication systems. Led fault identification and troubleshooting to maximize network uptime and service quality.</p>
+          <p>Coordinated with technical teams to monitor network performance, run routine site inspections, and maintain compliance with operational and safety standards.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <div><div class="tl-role">Intern Engineer — Instrumentation &amp; Control</div><div class="tl-org">Fauji Fertilizer Company · Goth Machi, Sadiqabad</div></div>
+          <div class="tl-date">JUN 2024 — AUG 2024</div>
+        </div>
+        <div class="tl-body">
+          <p>Worked in the Instrumentation Department with industrial sensors, PLC systems, and process-automation control mechanisms. Supported monitoring and calibration of instrumentation to keep plant operations accurate and reliable.</p>
+          <p>Analyzed protection systems — circuit breakers and fault-detection mechanisms — to safeguard circuits from short-circuit and overload conditions.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <div><div class="tl-role">Intern Engineer — Electronics</div><div class="tl-org">Pakistan Aeronautical Complex · Kamra, Attock</div></div>
+          <div class="tl-date">JAN 2024 — FEB 2024</div>
+        </div>
+        <div class="tl-body">
+          <p>Gained aerospace maintenance and system-refurbishment exposure at the Aircraft Rebuild Factory, rotating through the electrical, gyro, and oxygen bays.</p>
+          <p>Built practical understanding of aircraft subsystems and fault diagnostics under strict aviation safety and quality standards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="panel" id="panel-projects">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="sec-no">03</span><span class="sec-title">Projects</span>
+      <svg class="chip-ico" viewBox="0 0 40 40"><rect x="10" y="10" width="20" height="20" rx="2"/><line x1="14" y1="2" x2="14" y2="10"/><line x1="20" y1="2" x2="20" y2="10"/><line x1="26" y1="2" x2="26" y2="10"/><line x1="14" y1="30" x2="14" y2="38"/><line x1="20" y1="30" x2="20" y2="38"/><line x1="26" y1="30" x2="26" y2="38"/><line x1="2" y1="14" x2="10" y2="14"/><line x1="2" y1="20" x2="10" y2="20"/><line x1="2" y1="26" x2="10" y2="26"/><line x1="30" y1="14" x2="38" y2="14"/><line x1="30" y1="20" x2="38" y2="20"/><line x1="30" y1="26" x2="38" y2="26"/><circle cx="20" cy="20" r="2.4"/></svg>
+      <span class="rule"></span>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-01</div><div class="proj-name">IoT-Based Monitoring for Sustainable Operation of Commercial &amp; Domestic RO Plants</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-02</div><div class="proj-name">Home Automation System using IoT and GSM</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-03</div><div class="proj-name">Design &amp; Implementation of Solar-Based Traffic Light System</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-04</div><div class="proj-name">Solar-Powered Irrigation System for Agricultural Use</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-05</div><div class="proj-name">PLC-Based Conveyor Belt System</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-06</div><div class="proj-name">Smart Solar Tracker System for Better Efficiency</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-07</div><div class="proj-name">Automatic Car Parking System</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-08</div><div class="proj-name">Smart Health Monitoring System for Animals</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-09</div><div class="proj-name">WhatsApp &amp; Email Automation using AI Workflows</div></div>
+      <div class="proj-card"><span class="led"></span><div class="proj-id">P-10</div><div class="proj-name">Alcohol Detector for Identifying Drunk Persons — Road Safety</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="panel" id="panel-skills">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <span class="sec-no">04</span><span class="sec-title">Skills</span>
+      <svg class="chip-ico" viewBox="0 0 40 40"><rect x="10" y="10" width="20" height="20" rx="2"/><line x1="14" y1="2" x2="14" y2="10"/><line x1="20" y1="2" x2="20" y2="10"/><line x1="26" y1="2" x2="26" y2="10"/><line x1="14" y1="30" x2="14" y2="38"/><line x1="20" y1="30" x2="20" y2="38"/><line x1="26" y1="30" x2="26" y2="38"/><line x1="2" y1="14" x2="10" y2="14"/><line x1="2" y1="20" x2="10" y2="20"/><line x1="2" y1="26" x2="10" y2="26"/><line x1="30" y1="14" x2="38" y2="14"/><line x1="30" y1="20" x2="38" y2="20"/><line x1="30" y1="26" x2="38" y2="26"/><circle cx="20" cy="20" r="2.4"/></svg>
+      <span class="rule"></span>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>Instrumentation &amp; Control</h3>
+        <p>DCS/SCADA loop tuning, transmitter calibration, and motor control for industrial process plants.</p>
+        <div class="tag-row">
+          <span class="tag">DCS / SCADA Loop Tuning</span>
+          <span class="tag">Transmitter Calibration</span>
+          <span class="tag">Control Valve Checks</span>
+          <span class="tag">Relay Coordination</span>
+          <span class="tag">Motor Control (DOL / Star-Delta / VFD)</span>
+          <span class="tag">Interlocks &amp; Automation</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Fault Diagnostics</h3>
+        <p>Systematic troubleshooting to minimize downtime across motors, sensors, and control systems.</p>
+        <div class="tag-row">
+          <span class="tag">Electrical Troubleshooting</span>
+          <span class="tag">Fault Diagnostics</span>
+          <span class="tag">Preventive Maintenance</span>
+          <span class="tag">PLC Systems</span>
+          <span class="tag">Industrial Sensors</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Design &amp; Simulation Tools</h3>
+        <p>Software used for circuit design, simulation, and automation programming.</p>
+        <div class="tag-row">
+          <span class="tag">MATLAB</span>
+          <span class="tag">Altium Designer</span>
+          <span class="tag">AutoCAD Electrical</span>
+          <span class="tag">Multisim</span>
+          <span class="tag">Proteus</span>
+          <span class="tag">PLC Logic</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Workflow &amp; Language</h3>
+        <p>Automation workflows and working languages.</p>
+        <div class="tag-row">
+          <span class="tag">N8N &amp; AI Workflows</span>
+          <span class="tag">Microsoft Office</span>
+          <span class="tag">English</span>
+          <span class="tag">Urdu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section class="panel" id="panel-education">
+  <div class="wrap sec">
+    <div class="sec-head"><span class="sec-no">05</span><span class="sec-title">Education</span><span class="rule"></span></div>
+
+    <div class="edu-item">
+      <div class="edu-top"><div class="edu-school">Khwaja Fareed University of Engineering &amp; Information Technology (KFUEIT)</div><div class="edu-year">2021 — 2025</div></div>
+      <div class="edu-deg">Bachelor of Electrical Engineering — PEC Registered</div>
+      <div class="edu-meta">CGPA 3.88 / 4.0 · Gold Medalist · Rahim Yar Khan, Pakistan</div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-top"><div class="edu-school">Superior College for Boys, Hasilpur</div><div class="edu-year">2019 — 2021</div></div>
+      <div class="edu-deg">FSc Pre-Engineering — 1002 / 1100</div>
+      <div class="edu-meta">BISE Bahawalpur, Pakistan</div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-top"><div class="edu-school">Govt. High School No. 1, Hasilpur</div><div class="edu-year">2017 — 2019</div></div>
+      <div class="edu-deg">Matriculation, Computer Science — 1005 / 1100</div>
+      <div class="edu-meta">BISE Bahawalpur, Pakistan</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECOGNITION ============ -->
+<section class="panel" id="panel-recognition">
+  <div class="wrap sec">
+    <div class="sec-head"><span class="sec-no">06</span><span class="sec-title">Recognition &amp; Certifications</span><span class="rule"></span></div>
+
+    <div class="list-block">
+      <div class="ach-item"><div class="ach-title">Certificate of Appreciation — Small Business Ideas Expo 2025</div><div class="ach-loc">CHAMBER OF COMMERCE AND INDUSTRY · RAHIM YAR KHAN</div><div class="ach-desc">Presented final year project at the Business Ideas Expo 2025.</div></div>
+      <div class="ach-item"><div class="ach-title">Top Position — All Semester Project Exhibitions, KFUEIT</div><div class="ach-loc">IEEE KFUEIT · RAHIM YAR KHAN</div><div class="ach-desc">Secured top positions across all semester project exhibitions organized by IEEE.</div></div>
+      <div class="ach-item"><div class="ach-title">Certificate of Appreciation — Storm Fiber &amp; KFUEIT</div><div class="ach-loc">RAHIM YAR KHAN</div><div class="ach-desc">Recognized for participation in a sales and advertisement activity.</div></div>
+      <div class="ach-item"><div class="ach-title">PM Youth Laptop Scheme &amp; Honhaar Scholarship</div><div class="ach-loc">GOVT OF PAKISTAN · KFUEIT</div><div class="ach-desc">Awarded laptop and scholarship under the PM Youth Laptop and Scholarship Scheme.</div></div>
+      <div class="ach-item"><div class="ach-title">Brain of Hasilpur Award</div><div class="ach-loc">PUNJAB GROUP OF COLLEGES · HASILPUR</div><div class="ach-desc">Awarded for securing strong marks in a competitive test.</div></div>
+      <div class="ach-item"><div class="ach-title">Class Representative Award, KFUEIT</div><div class="ach-loc">RAHIM YAR KHAN</div><div class="ach-desc">Bridged faculty-student communication and led industrial visits to FFC Machi, Storm Fiber, and JDW Sugar Mill.</div></div>
+    </div>
+
+    <div class="list-block">
+      <div class="cert-item"><div class="cert-top"><div class="cert-title">Classic Control Course — Udemy Academy</div><div class="cert-year">2025</div></div><div class="cert-desc">Fundamentals of electrical control systems — relays, contactors, switches, and analog control circuits.</div></div>
+      <div class="cert-item"><div class="cert-top"><div class="cert-title">PLC Developer — LinkedIn Learning</div><div class="cert-year">2024</div></div><div class="cert-desc">Ladder logic design, HMI integration, and troubleshooting for automation programming.</div></div>
+      <div class="cert-item"><div class="cert-top"><div class="cert-title">Quantity Surveyor — Punjab Board of Technical Education, Lahore</div><div class="cert-year">2019</div></div><div class="cert-desc">3-month training covering quantity take-offs, cost estimation, and project documentation.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="panel" id="panel-contact">
+  <div class="wrap sec">
+    <div class="sec-head"><span class="sec-no">07</span><span class="sec-title">Contact</span><span class="rule"></span></div>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-lead">Available for opportunities in instrumentation, control systems, and industrial automation. Reach out directly or connect on social.</p>
+        <div class="direct-list">
+          <div class="direct-item ring">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+            <a href="tel:+923079295633">+92 307 9295633</a>
+          </div>
+          <div class="direct-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></span>
+            <a href="mailto:xhzainmunir@gmail.com">xhzainmunir@gmail.com</a>
+          </div>
+          <div class="direct-item">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4.4-4-7-7.6-7-11a7 7 0 0 1 14 0c0 3.4-2.6 7-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <span>Pakistan</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="social-panel">
+        <h3>Connect on Social</h3>
+        <p class="hint">Tap to open — links marked "add link" are placeholders, edit the href in the file to point to your own profile.</p>
+        <div class="social-list">
+          <a class="social-link" href="https://www.linkedin.com/in/muhammadzainulabideen5633/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4V8h4v1.8A5 5 0 0 1 16 8z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <span class="plat">LinkedIn</span><span class="sub">open</span>
+          </a>
+          <a class="social-link" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span class="plat">GitHub</span><span class="sub">add link</span>
+          </a>
+          <a class="social-link" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <span class="plat">Facebook</span><span class="sub">add link</span>
+          </a>
+          <a class="social-link" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <span class="plat">Instagram</span><span class="sub">add link</span>
+          </a>
+          <a class="social-link" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span class="plat">WhatsApp</span><span class="sub">add link</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="foot-bottom">© 2026 ENGR. MUHAMMAD ZAIN UL ABIDEEN — END OF DRAWING</div>
+</footer>
+
+<script>
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  const indicator = document.getElementById('tabIndicator');
+
+  function setIndicator(btn){
+    indicator.style.width = btn.offsetWidth + 'px';
+    indicator.style.transform = 'translateX(' + btn.offsetLeft + 'px)';
+  }
+
+  function activateTab(name){
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+    const activeBtn = document.querySelector('.tab-btn[data-tab="' + name + '"]');
+    if(activeBtn){ setIndicator(activeBtn); activeBtn.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); }
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  }
+
+  tabBtns.forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
+  document.querySelectorAll('[data-goto]').forEach(el => el.addEventListener('click', () => activateTab(el.dataset.goto)));
+
+  window.addEventListener('load', () => setIndicator(document.querySelector('.tab-btn.active')));
+  window.addEventListener('resize', () => setIndicator(document.querySelector('.tab-btn.active')));
+</script>
+
+</body>
+</html>
